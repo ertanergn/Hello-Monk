@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Monk.Domain" namespace="Monk.Domain.Entities">
+  <class name="Actor" table="Actor">
+
+    <id name="Id" column="IdActor" type="Guid">
+      <generator class="guid.comb" />
+    </id>
+
+    <property name="Name" not-null="true" column="Name" />
+    <property name="Surname" not-null="true" column="Surname" />
+    <property name="Title" not-null="true" column="Title" />
+    <property name="DateOfBirth" type="Timestamp" not-null="true" column="DateOfBirth"/>
+    <property name="Gender" not-null="true" column="Gender" type="NHibernate.Type.EnumStringType`1[[Monk.Domain.Enums.Gender,Monk.Domain]],NHibernate" />
+    <property name="PicturePath" not-null="false" column="PicturePath" />
+    
+  </class>
+</hibernate-mapping>

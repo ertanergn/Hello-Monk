@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" assembly="Monk.Domain" namespace="Monk.Domain.Entities">
+  <class name="Message" table="Message">
+
+    <id name="Id" column="IdMessage" type="Guid">
+      <generator class="guid.comb" />
+    </id>
+
+    <property name="Name" not-null="true" column="Name" />
+    <property name="Mail" not-null="true" column="Mail" />
+    <property name="PhoneNumber" column="PhoneNumber" />
+    <property name="Content" not-null="true" column="Content" />
+    <property name="Time" type="Timestamp" not-null="true" column="Time"/>
+    <property name="Status" not-null="true" column="Status" type="NHibernate.Type.EnumStringType`1[[Monk.Domain.Enums.MessageStatus,Monk.Domain]],NHibernate" />
+
+  </class>
+</hibernate-mapping>
