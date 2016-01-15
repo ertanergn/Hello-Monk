@@ -1,9 +1,9 @@
-﻿using DataSessionFactory = NHibernate.ISessionFactory;
+﻿using NHibernate;
 
 namespace Monk.Data.Factories
 {
-    public interface ISessionFactory
+    public interface IRepositoryFactory
     {
-        DataSessionFactory GetSessionFactory();
+        ISessionFactory GetSessionFactory();
     }
 }

@@ -1,24 +1,29 @@
-﻿using DataSessionFactory = NHibernate.ISessionFactory;
+﻿using NHibernate;
 using NHibernate.Cfg;
 
 namespace Monk.Data.Factories
 {
-    public class SessionFactory : ISessionFactory
+    public class RepositoryFactory : IRepositoryFactory
     {
-        private DataSessionFactory _sessionFactory;
+        private ISessionFactory _sessionFactory;
 
-        public SessionFactory()
+        public RepositoryFactory()
         {
             InitializeRepository();
         }
 
-        public DataSessionFactory GetSessionFactory()
+        /// <summary>
+        /// Returns initialized NHibernate session factory
+        /// </summary>
+        public ISessionFactory GetSessionFactory()
         {
+            if(_sessionFactory == null)
+                InitializeRepository();
             return _sessionFactory;
         }
 
         /// <summary>
-        /// Initialize NHibernate
+        /// Initialize NHibernate configuration
         /// </summary>
         private void InitializeRepository()
         {

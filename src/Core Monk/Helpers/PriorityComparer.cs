@@ -6,6 +6,9 @@ namespace Monk.Core.Helpers
 {
     internal class PriorityComparer : IComparer<Assembly>
     {
+        /// <summary>
+        /// Compares priorirties of two asseblies based on ModuleLoadPriorityAttribute
+        /// </summary>
         public int Compare(Assembly x, Assembly y)
         {
             var xPriority = ReadPriority(x);
@@ -13,9 +16,11 @@ namespace Monk.Core.Helpers
             return xPriority.CompareTo(yPriority);
         }
 
+        /// <summary>
+        /// ModuleLoadPriorityAttribute value from assable if exists
+        /// </summary>
         public static int ReadPriority(Assembly assembly)
         {
-
             var orderPriorityList = assembly.GetCustomAttributes(
                 typeof(ModuleLoadPriorityAttribute), false);
             if (orderPriorityList.Length > 0)

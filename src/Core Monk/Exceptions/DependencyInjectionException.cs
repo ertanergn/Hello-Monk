@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Monk.Core.Exceptions
 {
+    /// <summary>
+    /// Custom exception for identifying dependency resolve operations
+    /// </summary>
     public class DependencyInjectionException : Exception
     {
         private readonly string _message;

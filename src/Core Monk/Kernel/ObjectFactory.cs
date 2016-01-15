@@ -19,39 +19,36 @@ namespace Monk.Core.Kernel
 
         public const string APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN = "AutoLoadModulePattern";
         public const string APP_SETTING_KEY_EXCLUDE_AUTO_LOAD_MODULE_PATTERN = "ExcludeAutoLoadModulePattern";
-        private const string EVENT_VIEWER_SOURCE = "Monk";
+        private const string EVENT_VIEWER_SOURCE = "Hello_Monk_Web_Application";
         private const char ASSEMBLIES_SPLIT_CHAR = ',';
 
         #endregion     
 
         private static IKernel _kernel;
 
+        /// <summary>
+        /// Standard Ninject Kernel
+        /// </summary>
         public static IKernel Kernel
         {
             get
             {
                 if (_kernel == null)
-                    BuildKernel();
+                    InitializeKernel();
                 return _kernel;
             }
         }
 
-        public static object Get(Type type)
-        {
-            return Kernel.Get(type);
-        }
-
         /// <summary>
-        /// This must be used only in unit testing when setting a different kernel from the StandardKernel (ex: RhinoKernel)
-        /// Returns The settings used for the Kernel
+        /// Resolves dependencies of type T object and returns it
         /// </summary>
-        protected static INinjectSettings GetSettings()
+        public static T Get<T>()
         {
-            return new NinjectSettings() { LoadExtensions = true, InjectNonPublic = true };
+            return Kernel.Get<T>();
         }
 
         /// <summary>
-        /// This must be used only in unit testing when setting a different kernel from the StandardKernel (ex: RhinoKernel)
+        /// To assign a different kernel from the StandardKernel (ex: RhinoKernel)
         /// </summary>
         public static void AssignKernel(IKernel kernel)
         {
@@ -67,9 +64,29 @@ namespace Monk.Core.Kernel
             AssignKernel(null);
         }
 
+        /// <summary>
+        /// Returns The settings used for the Kernel
+        /// </summary>
+        protected static INinjectSettings GetSettings()
+        {
+            return new NinjectSettings() { LoadExtensions = true, InjectNonPublic = true };
+        } 
+
+        /// <summary>
+        /// Resolves Dependencies in given object
+        /// </summary>
         public static void ResolveDependencies(object ob)
         {
             Kernel.Inject(ob);
+        }
+
+        /// <summary>
+        /// Initializes the Ninject standard kernel
+        /// </summary>
+        public static void BuildKernel()
+        {
+            if (_kernel == null)
+                InitializeKernel();
         }
 
         #region Privates
@@ -77,7 +94,7 @@ namespace Monk.Core.Kernel
         /// <summary>
         /// Builds the Kernel by activating all the ninject modules
         /// </summary>
-        private static void BuildKernel()
+        private static void InitializeKernel()
         {
             AssignKernel(new StandardKernel(GetSettings(), new INinjectModule[] { }));
             var candidateAssembliesToLoad = GetAssembliesContainingModulesToLoad();
@@ -103,9 +120,8 @@ namespace Monk.Core.Kernel
             if (rejectedAssembliesToLoad.Count != 0)
             {
                 FormatUnableToLoadNinjectModulesException(rejectedAssembliesToLoad);
-                throw new ActivationException("An error occured during the configuration of the Kernel. Check Event Viwer for details.");
+                throw new ActivationException("An error occurred during the configuration of the Kernel. Check Event Viwer for details.");
             }
-
         }
 
         /// <summary>
@@ -129,7 +145,7 @@ namespace Monk.Core.Kernel
         {
             if (!ConfigurationManager.AppSettings.AllKeys.Contains(APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN))
                 throw new DependencyInjectionException(
-                    String.Format("Cannot configure ObjectFactory: your app.config must contain an app setting key [{0}] " +
+                    String.Format("Cannot configure ObjectFactory: your web.config must contain an app setting key [{0}] " +
                                   "and the value must contains assembly search patterns separated by [{1}]",
                                   APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN, ASSEMBLIES_SPLIT_CHAR));
             var assemblyNamesToLoad = ConfigurationManager.AppSettings[APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN].Split(ASSEMBLIES_SPLIT_CHAR);
@@ -137,7 +153,7 @@ namespace Monk.Core.Kernel
         }
 
         /// <summary>
-        /// Return all the assembly patterns that needs to be avoided from loading defined in the config
+        /// Return all the assembly patterns that needs to be avoided from loading defined in the web.config
         /// </summary>
         private static IEnumerable<string> GetAssemblyPatternsFromConfigToAvoid()
         {
@@ -163,7 +179,7 @@ namespace Monk.Core.Kernel
         private static void FormatUnableToLoadNinjectModulesException(IEnumerable<Assembly> rejectedAssembliesToLoad)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("An error occured during the loading of some Ninject Assemblies deployed in your bin folder.");
+            sb.AppendLine("An error occurred during loading of some Ninject Assemblies deployed in your bin folder.");
             sb.AppendLine("** Review previous event logs for the detailed reason of failure **");
             sb.AppendLine("Probably some references are missing!");
             sb.AppendLine("The following assemblies failed to load:");
@@ -217,7 +233,7 @@ namespace Monk.Core.Kernel
                 WriteEntryLog(
                     String.Format(
                         "Assembly {0} match the provided {2} , but is not a compatible .net assembly." +
-                        "If this assembly is not required, please include it in the app.config under the ExcludeAutoLoadModulePattern. Error is {1}.",
+                        "If this assembly is not required, please include it in the web.config under the ExcludeAutoLoadModulePattern. Error is {1}.",
                         file.Name, ex.Message, APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN), true);
             }
             return assemblyToLoad;
@@ -239,27 +255,30 @@ namespace Monk.Core.Kernel
             if (result == null || result.Count == 0)
             {
                 var messageToThrow =
-                    String.Format("Cannot configure ObjectFactory: no assemblies are found with the search pattern {0}",
+                    String.Format("Cannot configure ObjectFactory: no assembly is found with the search pattern {0}",
                                   ConfigurationManager.AppSettings[APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN]);
                 WriteEntryLog(messageToThrow, true);
                 throw new DependencyInjectionException(messageToThrow);
             }
 
             var sb = new StringBuilder();
-            sb.AppendLine("###### the kernel's object facory has started using the auto module loading ######");
-            sb.AppendLine("the patter defined in config for searching modules in assemblies is: ");
+            sb.AppendLine("###### The kernel's object factory has started using the auto module loading ######");
+            sb.AppendLine("The pattern defined in config for searching modules in assemblies is: ");
             sb.AppendLine(ConfigurationManager.AppSettings[APP_SETTING_KEY_AUTO_LOAD_MODULE_PATTERN]);
-            sb.AppendLine("Assemblies that matched selected patters are listed below. Please note that lower is the priority," +
+            sb.AppendLine("Assemblies that matched with selected pattern are listed below. Please note that lower the priority," +
                           "earlier the module is loaded. ");
             foreach (var foundAssembly in result)
                 sb.AppendLine(string.Format("- {0} with module loading priority: {1} ", foundAssembly.FullName, PriorityComparer.ReadPriority(foundAssembly)));
             WriteEntryLog(sb.ToString(), false);
         }
 
+        /// <summary>
+        /// Writes operation log to event viewer
+        /// </summary>
         private static void LogToEventViewer(Exception ex, Assembly faultedAssembly = null)
         {
             var sb = new StringBuilder();
-            if (faultedAssembly != null) sb.AppendLine("An error occured in loading ninject modules from assembly: " + faultedAssembly.FullName);
+            if (faultedAssembly != null) sb.AppendLine("An error occurred in loading ninject modules from assembly: " + faultedAssembly.FullName);
             sb.AppendLine(ex.Message);
             sb.AppendLine(ex.StackTrace);
             WriteInnerExceptionIfExists(sb, ex);
@@ -271,9 +290,12 @@ namespace Monk.Core.Kernel
         /// </summary>
         private static void WriteEntryLog(string message, bool isError)
         {
-            //EventLog.WriteEntry(EVENT_VIEWER_SOURCE, message, isError ? EventLogEntryType.Error : EventLogEntryType.Information);
+            EventLog.WriteEntry(EVENT_VIEWER_SOURCE, message, isError ? EventLogEntryType.Error : EventLogEntryType.Information);
         }
 
+        /// <summary>
+        /// Recursive check for inner exceptions
+        /// </summary>
         private static void WriteInnerExceptionIfExists(StringBuilder sb, Exception ex)
         {
             if (ex.InnerException != null)
@@ -286,7 +308,6 @@ namespace Monk.Core.Kernel
             }
         }
 
-        #endregion
-       
+        #endregion 
     }
 }
