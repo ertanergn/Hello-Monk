@@ -3,3 +3,6 @@ bin
 obj
 /
 *.suo
+
+*.log
+*.user
