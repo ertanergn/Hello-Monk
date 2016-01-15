@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monk.Log", "src\Log Monk\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monk.Data", "src\Data Monk\Monk.Data.csproj", "{F833AD33-CD52-4777-B83A-1B3BB53CA8DB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6509DB70-66B5-444D-9688-1A9F6896482D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Monk", "src\Test Monk\Test Monk.csproj", "{9B744B2B-0921-407B-99C8-00D2A817C211}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,8 +41,15 @@ Global
 		{F833AD33-CD52-4777-B83A-1B3BB53CA8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F833AD33-CD52-4777-B83A-1B3BB53CA8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F833AD33-CD52-4777-B83A-1B3BB53CA8DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B744B2B-0921-407B-99C8-00D2A817C211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B744B2B-0921-407B-99C8-00D2A817C211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B744B2B-0921-407B-99C8-00D2A817C211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B744B2B-0921-407B-99C8-00D2A817C211}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B744B2B-0921-407B-99C8-00D2A817C211} = {6509DB70-66B5-444D-9688-1A9F6896482D}
 	EndGlobalSection
 EndGlobal
