@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Exceptions\RepositoryException.cs" />
     <Compile Include="Factories\ISessionFactory.cs" />
     <Compile Include="Factories\SessionFactory.cs" />
     <Compile Include="NinjectModule\DataModule.cs" />
@@ -55,7 +57,12 @@
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Core Monk\Monk.Core.csproj">
+      <Project>{4D77FC9C-ADF6-4994-81AE-7EEA5F118146}</Project>
+      <Name>Monk.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

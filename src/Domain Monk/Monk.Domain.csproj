@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\libs\Log4Net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\libs\Ninject\Ninject.dll</HintPath>
     </Reference>
@@ -42,14 +45,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Actor.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Enums\MessageStatus.cs" />
+    <Compile Include="Managers\Base\BaseManager.cs" />
+    <Compile Include="Managers\Base\IBaseManager.cs" />
+    <Compile Include="Managers\Implementation\ActorManager.cs" />
+    <Compile Include="Managers\Implementation\MessageManager.cs" />
+    <Compile Include="Managers\Interface\IActorManager.cs" />
+    <Compile Include="Managers\Interface\IMessageManager.cs" />
+    <Compile Include="NinjectModules\DomainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessLogic\Implementation\" />
-    <Folder Include="BusinessLogic\Interface\" />
-    <Folder Include="Entities\" />
-    <Folder Include="EntityMappings\" />
-    <Folder Include="NinjectModule\" />
+    <EmbeddedResource Include="EntityMappings\Message.hbm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Core Monk\Monk.Core.csproj">
+      <Project>{4D77FC9C-ADF6-4994-81AE-7EEA5F118146}</Project>
+      <Name>Monk.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data Monk\Monk.Data.csproj">
+      <Project>{F833AD33-CD52-4777-B83A-1B3BB53CA8DB}</Project>
+      <Name>Monk.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Log Monk\Monk.Log.csproj">
+      <Project>{E42CBB8C-94F4-4842-8212-DFD4D730A3E6}</Project>
+      <Name>Monk.Log</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EntityMappings\Actor.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

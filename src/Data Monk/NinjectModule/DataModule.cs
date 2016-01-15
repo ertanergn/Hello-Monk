@@ -7,7 +7,7 @@ namespace Monk.Data
     {
         public override void Load()
         {
-            Bind<ISessionFactory>().To<SessionFactory>().InSingletonScope();
+            Bind<IRepositoryFactory>().To<RepositoryFactory>().InSingletonScope();
         }
     }
 }
