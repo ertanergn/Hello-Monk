@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monk.Data", "src\Data Monk\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6509DB70-66B5-444D-9688-1A9F6896482D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Monk", "src\Test Monk\Test Monk.csproj", "{9B744B2B-0921-407B-99C8-00D2A817C211}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monk.Test", "src\Test Monk\Monk.Test.csproj", "{9B744B2B-0921-407B-99C8-00D2A817C211}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
