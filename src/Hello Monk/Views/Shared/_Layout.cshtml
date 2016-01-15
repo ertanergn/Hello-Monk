@@ -2,42 +2,54 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>@ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @*@Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")*@
+        <meta name="viewport" content="width=device-width"/>
+	    <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
+        @Styles.Render("~/Content/Css")
     </head>
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+        <header class="top-header">
+            <div class="container">
+			<div class="row header-row">    
+				<div class="col-md-12">
+					<nav class="navbar navbar-default">
+					<a class="navbar-brand" href="#sec1">Hello Monk</a>
+					  <div class="container-fluid">
+					    <!-- Brand and toggle get grouped for better mobile display -->
+					    <div class="navbar-header">
+					      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					        <span class="sr-only">Toggle navigation</span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					      </button>
+					    </div>
+					    <!-- Collect the nav links, forms, and other content for toggling -->
+					    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					      
+					      <ul class="nav navbar-nav navbar-right">
+					        <li><a href="#sec2">about me</a></li>
+					        <li><a href="#sec3">my skills</a></li>
+					        <li><a href="#sec4">hobbies</a></li>
+					        <li><a href="#sec5">contact me</a></li>
+					      </ul>
+					    </div><!-- /.navbar-collapse -->
+					  </div><!-- /.container-fluid -->
+					</nav>
+				</div>
+			</div>
+		</div>
         </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
-        </footer>
 
-        @*@Scripts.Render("~/bundles/jquery")*@
-        @RenderSection("scripts", required: false)
+        @RenderBody()
+
+        <footer class="footer text-center">
+		    <p>&copy; Ertan Ergun</p>
+	    </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/Utilities")
     </body>
 </html>

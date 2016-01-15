@@ -1,8 +1,5 @@
-bin
-/
-obj
-/
+bin/
+obj/
 *.suo
-
 *.log
 *.user
